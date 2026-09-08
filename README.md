@@ -28,7 +28,7 @@ No Relish guts. No private fleet paths. Patterns only.
 
 ```bash
 python -m pip install -e .
-python -c "from operator_gates import check; print(check(path='mail_send', posture={'mirror_ok': True, 'phrase': True}))"
+python -c "from operator_gates import Posture, check; print(check('mail_send', Posture(mirror_ok=True, phrase=True)))"
 ```
 
 Or run the examples:
