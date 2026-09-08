@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "operator-gates"
-version = "0.1.0"
+version = "0.2.0"
 description = "Fail-closed send/money gates for agent-operated companies"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -19,8 +19,12 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/GFB2026/operator-gates"
-Documentation = "https://gregfredabytes.com/essay/agent-operated-companies/"
+Documentation = "https://gregfredabytes.com/essay/mail-as-front-door/"
 "Peer desk" = "https://gregfredabytes.com/"
+Scar = "https://github.com/GFB2026/operator-gates/blob/main/scars/001-stale-mirror-before-send.md"
+
+[project.scripts]
+operator-gates = "operator_gates.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

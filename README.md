@@ -1,10 +1,10 @@
 # operator-gates
 
-**Reference stub** for fail-closed send / money / outreach cards.
+Fail-closed **GO / NO-GO cards** before agents touch mail, money, or outreach.
 
-This is a *shape*, not a framework and not a finished flagship. It encodes the GO/NO-GO card we use before agents touch mail or money. Wire your own live posture. Not a product SKU, not a harness pitch.
+Not a harness framework. Not a product SKU. A small, forkable contract from running companies where agents already sit on real inboxes and charges.
 
-Peer desk: [gregfredabytes.com](https://gregfredabytes.com/) · thesis: [agent-operated companies](https://gregfredabytes.com/essay/agent-operated-companies/) · inventory: [what I run](https://gregfredabytes.com/running/)
+Peer desk: [gregfredabytes.com](https://gregfredabytes.com/) · essay: [Mail is the front door](https://gregfredabytes.com/essay/mail-as-front-door/) · inventory: [what I run](https://gregfredabytes.com/running/)
 
 ---
 
@@ -12,24 +12,20 @@ Peer desk: [gregfredabytes.com](https://gregfredabytes.com/) · thesis: [agent-o
 
 Harness builders ship shells. Operator companies live where agents already touch **customers and money**. The hard part is not “make the model act” — it is deciding what it is allowed to **send, charge, or promise**, and proving the gate held.
 
-This repo is a thin, forkable shape of that seat:
-
 | Piece | What it is |
 |-------|------------|
-| `gate.py` | Fail-closed posture check → one-line GO / NO-GO card |
-| `examples/` | Mail send, outreach, money path sketches |
-| `ANTI_PATTERNS.md` | Operator refuse patterns that keep agents from fighting the human |
+| `gate.py` | Posture → one-line GO / NO-GO card |
+| `operator-gates` CLI | `check` / `replay` / `scars` |
+| `scars/` | Anonymized production incidents |
+| `ANTI_PATTERNS.md` | Refuse patterns that keep agents from fighting the human |
 
-No Relish guts. No private fleet paths. Patterns only.
+No Relish guts. No private fleet paths.
 
-### What this is not (yet)
+### Honest scope
 
 - Not Dex-style thesis depth (`12-factor-agents` grade)
-- Not an installable CLI / brew formula
-- Not wired to a live boot plane — you pass `Posture` yourself
-- Not proof you run a company; the proof is [what I run](https://gregfredabytes.com/running/) and the essays
-
-If you only clone this repo, you get a card contract. That is intentional thinness until a scar write-up lands here.
+- Not wired to a live boot plane — you pass posture (flags or JSON)
+- Proof you run a company is [what I run](https://gregfredabytes.com/running/), not this repo alone
 
 ---
 
@@ -37,15 +33,34 @@ If you only clone this repo, you get a card contract. That is intentional thinne
 
 ```bash
 python -m pip install -e .
-python -c "from operator_gates import Posture, check; print(check('mail_send', Posture(mirror_ok=True, phrase=True)))"
+operator-gates scars
+operator-gates replay 001
+operator-gates check mail_send --phrase          # exits 1 — NO-GO (mirror not ok)
+operator-gates check mail_send --mirror-ok --phrase   # exits 0 — GO
 ```
 
-Or run the examples:
+Or:
 
 ```bash
-python examples/mail_send.py
-python examples/money.py
+python -m operator_gates replay 001
+python examples/stale_mirror.py
 ```
+
+JSON posture:
+
+```bash
+operator-gates check mail_send --json examples/posture.stale.json
+```
+
+---
+
+## Scar 001 — Stale mirror before send
+
+Full write-up: [`scars/001-stale-mirror-before-send.md`](scars/001-stale-mirror-before-send.md)
+
+Short version: agent had a good customer draft; mailbox mirror was stale; card said **NO-GO**; human fixed sync + phrase; then **GO**. The draft never left on a lying I/O plane.
+
+That incident is also the concrete beat in [Mail is the front door](https://gregfredabytes.com/essay/mail-as-front-door/).
 
 ---
 
@@ -54,8 +69,8 @@ python examples/money.py
 Every mutator on send / money / outreach emits **exactly one** card first:
 
 ```text
-ARMED-CHECK: GO | path=mail_send | mirror=ok | phrase=satisfied | note=ops reply
-ARMED-CHECK: NO-GO | path=money | reason=missing phrase | need=exact money approve
+ARMED-CHECK: GO | path=mail_send | note=ops reply
+ARMED-CHECK: NO-GO | path=mail_send | reason=mirror not ok | need=fix mirror or use read-only
 ```
 
 - **NO-GO → block.** Do not send or charge in the same turn.
