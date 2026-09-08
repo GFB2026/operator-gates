@@ -1,8 +1,8 @@
 # operator-gates
 
-**Fail-closed send / money / outreach gates for agent-operated companies.**
+**Reference stub** for fail-closed send / money / outreach cards.
 
-Reference patterns from running real businesses with agents on mail, desk, and charges — not a product SKU, not a harness pitch.
+This is a *shape*, not a framework and not a finished flagship. It encodes the GO/NO-GO card we use before agents touch mail or money. Wire your own live posture. Not a product SKU, not a harness pitch.
 
 Peer desk: [gregfredabytes.com](https://gregfredabytes.com/) · thesis: [agent-operated companies](https://gregfredabytes.com/essay/agent-operated-companies/) · inventory: [what I run](https://gregfredabytes.com/running/)
 
@@ -21,6 +21,15 @@ This repo is a thin, forkable shape of that seat:
 | `ANTI_PATTERNS.md` | Operator refuse patterns that keep agents from fighting the human |
 
 No Relish guts. No private fleet paths. Patterns only.
+
+### What this is not (yet)
+
+- Not Dex-style thesis depth (`12-factor-agents` grade)
+- Not an installable CLI / brew formula
+- Not wired to a live boot plane — you pass `Posture` yourself
+- Not proof you run a company; the proof is [what I run](https://gregfredabytes.com/running/) and the essays
+
+If you only clone this repo, you get a card contract. That is intentional thinness until a scar write-up lands here.
 
 ---
 
