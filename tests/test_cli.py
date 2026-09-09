@@ -28,3 +28,10 @@ def test_replay_002(capsys):
     out = capsys.readouterr().out
     assert "host not pinned" in out
     assert "GO" in out
+
+
+def test_replay_003(capsys):
+    assert main(["replay", "003"]) == 0
+    out = capsys.readouterr().out
+    assert "missing phrase" in out
+    assert "GO" in out

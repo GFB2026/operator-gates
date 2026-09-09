@@ -40,6 +40,21 @@ SCARS = {
             ),
         ],
     },
+    "003": {
+        "title": "Irreversible without held phrase",
+        "steps": [
+            (
+                "mail_send",
+                Posture(mirror_ok=True, phrase=False, note="thread felt approved"),
+                "Vibes ≠ phrase → block",
+            ),
+            (
+                "mail_send",
+                Posture(mirror_ok=True, phrase=True, note="exact phrase this turn"),
+                "Fresh phrase → allow send",
+            ),
+        ],
+    },
 }
 
 

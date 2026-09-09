@@ -71,6 +71,12 @@ Good draft; stale mailbox mirror; **NO-GO**; sync + phrase; **GO**. Draft never 
 
 Identical path on more than one machine; no host pin; **NO-GO**; pin named; **GO**. Near-identical trees fork companies.
 
+### 003 — Irreversible without held phrase
+
+[`scars/003-irreversible-without-held-phrase.md`](scars/003-irreversible-without-held-phrase.md)
+
+Thread *felt* green; no exact phrase in this turn; **NO-GO**. Vibes don’t authorize send/money. Compaction is how irreversible actions sneak out.
+
 ---
 
 ## The card (contract)
