@@ -24,6 +24,7 @@ class Posture:
     outreach_paused: bool = True
     holds: list[str] = field(default_factory=list)
     phrase: bool = False  # human said the exact approve phrase for this path
+    host_pinned: bool = False  # explicit machine before multi-host mutate
     note: str = ""
 
 
@@ -131,7 +132,23 @@ def check(path: PathClass, posture: Posture | None = None) -> Card:
             )
         return Card(True, path, note=p.note or "voice")
 
-    return Card(False, path, reason="unknown path", need="pick mail_send|outreach|money|voice")
+    if path == "other":
+        # Ops mutate across near-identical trees — pin host or fork state.
+        if not p.host_pinned:
+            return Card(
+                False,
+                path,
+                reason="host not pinned",
+                need="explicit machine before mutate",
+            )
+        return Card(True, path, note=p.note or "host pinned")
+
+    return Card(
+        False,
+        path,
+        reason="unknown path",
+        need="pick mail_send|outreach|money|voice|other",
+    )
 
 
 def _blocks_mail(hold: str) -> bool:

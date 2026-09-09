@@ -35,8 +35,10 @@ No Relish guts. No private fleet paths.
 python -m pip install -e .
 operator-gates scars
 operator-gates replay 001
+operator-gates replay 002
 operator-gates check mail_send --phrase          # exits 1 — NO-GO (mirror not ok)
 operator-gates check mail_send --mirror-ok --phrase   # exits 0 — GO
+operator-gates check other --host-pinned         # exits 0 — GO
 ```
 
 Or:
@@ -44,6 +46,7 @@ Or:
 ```bash
 python -m operator_gates replay 001
 python examples/stale_mirror.py
+python examples/wrong_host.py
 ```
 
 JSON posture:
@@ -54,13 +57,19 @@ operator-gates check mail_send --json examples/posture.stale.json
 
 ---
 
-## Scar 001 — Stale mirror before send
+## Scars
 
-Full write-up: [`scars/001-stale-mirror-before-send.md`](scars/001-stale-mirror-before-send.md)
+### 001 — Stale mirror before send
 
-Short version: agent had a good customer draft; mailbox mirror was stale; card said **NO-GO**; human fixed sync + phrase; then **GO**. The draft never left on a lying I/O plane.
+[`scars/001-stale-mirror-before-send.md`](scars/001-stale-mirror-before-send.md) · essay: [Mail is the front door](https://gregfredabytes.com/essay/mail-as-front-door/)
 
-That incident is also the concrete beat in [Mail is the front door](https://gregfredabytes.com/essay/mail-as-front-door/).
+Good draft; stale mailbox mirror; **NO-GO**; sync + phrase; **GO**. Draft never left on a lying I/O plane.
+
+### 002 — Wrong host, wrong truth
+
+[`scars/002-wrong-host-wrong-truth.md`](scars/002-wrong-host-wrong-truth.md)
+
+Identical path on more than one machine; no host pin; **NO-GO**; pin named; **GO**. Near-identical trees fork companies.
 
 ---
 

@@ -24,7 +24,22 @@ SCARS = {
                 "Mirror fixed + phrase → allow send",
             ),
         ],
-    }
+    },
+    "002": {
+        "title": "Wrong host, wrong truth",
+        "steps": [
+            (
+                "other",
+                Posture(host_pinned=False, note="path exists on multiple boxes"),
+                "Identical path, no host pin → block",
+            ),
+            (
+                "other",
+                Posture(host_pinned=True, note="machine named"),
+                "Host pinned → allow mutate",
+            ),
+        ],
+    },
 }
 
 
@@ -43,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     p_check.add_argument("--json", dest="json_path", help="Path to posture JSON file")
     p_check.add_argument("--mirror-ok", action="store_true")
     p_check.add_argument("--phrase", action="store_true")
+    p_check.add_argument("--host-pinned", action="store_true")
     p_check.add_argument("--outreach-live", action="store_true")
     p_check.add_argument("--hold", action="append", default=[], help="Repeatable hold id")
     p_check.add_argument("--note", default="")
@@ -91,6 +107,7 @@ def _posture_from_args(args: argparse.Namespace) -> Posture:
             outreach_paused=bool(data.get("outreach_paused", True)),
             holds=list(data.get("holds") or []),
             phrase=bool(data.get("phrase", False)),
+            host_pinned=bool(data.get("host_pinned", False)),
             note=str(data.get("note") or ""),
         )
     outreach_live = bool(args.outreach_live)
@@ -100,6 +117,7 @@ def _posture_from_args(args: argparse.Namespace) -> Posture:
         outreach_paused=not outreach_live,
         holds=list(args.hold or []),
         phrase=bool(args.phrase),
+        host_pinned=bool(args.host_pinned),
         note=args.note or "",
     )
 

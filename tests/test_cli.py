@@ -18,4 +18,13 @@ def test_replay_001(capsys):
 
 def test_scars_list(capsys):
     assert main(["scars"]) == 0
-    assert "001" in capsys.readouterr().out
+    out = capsys.readouterr().out
+    assert "001" in out
+    assert "002" in out
+
+
+def test_replay_002(capsys):
+    assert main(["replay", "002"]) == 0
+    out = capsys.readouterr().out
+    assert "host not pinned" in out
+    assert "GO" in out

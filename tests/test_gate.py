@@ -21,3 +21,8 @@ def test_money_requires_phrase():
 def test_outreach_paused():
     c = check("outreach", Posture(phrase=True, outreach_live=False, outreach_paused=True))
     assert c.go is False
+
+
+def test_other_requires_host_pin():
+    assert check("other", Posture()).go is False
+    assert check("other", Posture(host_pinned=True)).go is True

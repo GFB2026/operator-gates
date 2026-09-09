@@ -3,4 +3,4 @@
 from .gate import Card, PathClass, Posture, check
 
 __all__ = ["Card", "PathClass", "Posture", "check"]
-__version__ = "0.2.0"
+__version__ = "0.2.1"
