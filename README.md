@@ -36,6 +36,7 @@ python -m pip install -e .
 operator-gates scars
 operator-gates replay 001
 operator-gates replay 002
+operator-gates replay 004
 operator-gates check mail_send --phrase          # exits 1 — NO-GO (mirror not ok)
 operator-gates check mail_send --mirror-ok --phrase   # exits 0 — GO
 operator-gates check other --host-pinned         # exits 0 — GO
@@ -76,6 +77,16 @@ Identical path on more than one machine; no host pin; **NO-GO**; pin named; **GO
 [`scars/003-irreversible-without-held-phrase.md`](scars/003-irreversible-without-held-phrase.md)
 
 Thread *felt* green; no exact phrase in this turn; **NO-GO**. Vibes don’t authorize send/money. Compaction is how irreversible actions sneak out.
+
+### 004 — Capitulation after disagreement
+
+[`scars/004-capitulation-after-disagreement.md`](scars/004-capitulation-after-disagreement.md) · essay: [Capitulation after disagreement](https://gregfredabytes.com/essay/capitulation-after-disagreement/)
+
+Operator scolds; agent agrees, locks a rule, **stops**. **NO-GO** until spine revised **and** next artifact ships. Disagreement must not be taxed.
+
+```bash
+operator-gates replay 004
+```
 
 ---
 

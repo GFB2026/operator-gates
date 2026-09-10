@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Literal
 
-PathClass = Literal["mail_send", "outreach", "money", "voice", "other"]
+PathClass = Literal["mail_send", "outreach", "money", "voice", "other", "correction"]
 
 
 @dataclass
@@ -25,6 +25,8 @@ class Posture:
     holds: list[str] = field(default_factory=list)
     phrase: bool = False  # human said the exact approve phrase for this path
     host_pinned: bool = False  # explicit machine before multi-host mutate
+    correction_received: bool = False  # operator reprimanded / corrected this turn
+    next_artifact: bool = False  # spine revised AND next non-blocked artifact shipped
     note: str = ""
 
 
@@ -143,11 +145,31 @@ def check(path: PathClass, posture: Posture | None = None) -> Card:
             )
         return Card(True, path, note=p.note or "host pinned")
 
+    if path == "correction":
+        # Scar 004 — capitulation-exit: lock-only after scold is NO-GO.
+        if p.correction_received and not p.next_artifact:
+            return Card(
+                False,
+                path,
+                reason="capitulation-exit",
+                need="revise spine and ship next artifact",
+            )
+        return Card(
+            True,
+            path,
+            note=p.note
+            or (
+                "correction continued"
+                if p.correction_received
+                else "no correction in play"
+            ),
+        )
+
     return Card(
         False,
         path,
         reason="unknown path",
-        need="pick mail_send|outreach|money|voice|other",
+        need="pick mail_send|outreach|money|voice|other|correction",
     )
 
 

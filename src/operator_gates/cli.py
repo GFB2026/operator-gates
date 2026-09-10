@@ -55,6 +55,29 @@ SCARS = {
             ),
         ],
     },
+    "004": {
+        "title": "Capitulation after disagreement",
+        "steps": [
+            (
+                "correction",
+                Posture(
+                    correction_received=True,
+                    next_artifact=False,
+                    note="agreed and locked a rule",
+                ),
+                "Scold → lock-only exit → block",
+            ),
+            (
+                "correction",
+                Posture(
+                    correction_received=True,
+                    next_artifact=True,
+                    note="spine revised + next artifact",
+                ),
+                "Scold → revise + continue → allow",
+            ),
+        ],
+    },
 }
 
 
@@ -68,13 +91,23 @@ def main(argv: list[str] | None = None) -> int:
     p_check = sub.add_parser("check", help="Emit one card from flags or JSON posture")
     p_check.add_argument(
         "path",
-        choices=["mail_send", "outreach", "money", "voice", "other"],
+        choices=["mail_send", "outreach", "money", "voice", "other", "correction"],
     )
     p_check.add_argument("--json", dest="json_path", help="Path to posture JSON file")
     p_check.add_argument("--mirror-ok", action="store_true")
     p_check.add_argument("--phrase", action="store_true")
     p_check.add_argument("--host-pinned", action="store_true")
     p_check.add_argument("--outreach-live", action="store_true")
+    p_check.add_argument(
+        "--correction-received",
+        action="store_true",
+        help="Operator reprimanded / corrected this turn",
+    )
+    p_check.add_argument(
+        "--next-artifact",
+        action="store_true",
+        help="Correction continued: spine revised + next artifact shipped",
+    )
     p_check.add_argument("--hold", action="append", default=[], help="Repeatable hold id")
     p_check.add_argument("--note", default="")
 
@@ -123,6 +156,8 @@ def _posture_from_args(args: argparse.Namespace) -> Posture:
             holds=list(data.get("holds") or []),
             phrase=bool(data.get("phrase", False)),
             host_pinned=bool(data.get("host_pinned", False)),
+            correction_received=bool(data.get("correction_received", False)),
+            next_artifact=bool(data.get("next_artifact", False)),
             note=str(data.get("note") or ""),
         )
     outreach_live = bool(args.outreach_live)
@@ -133,6 +168,8 @@ def _posture_from_args(args: argparse.Namespace) -> Posture:
         holds=list(args.hold or []),
         phrase=bool(args.phrase),
         host_pinned=bool(args.host_pinned),
+        correction_received=bool(args.correction_received),
+        next_artifact=bool(args.next_artifact),
         note=args.note or "",
     )
 
