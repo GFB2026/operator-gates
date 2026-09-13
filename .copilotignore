@@ -1,0 +1,17 @@
+# Secrets and credentials
+.env
+.env.*
+secrets/
+**/secrets/**
+credentials/
+**/credentials/**
+
+# Local environments
+.venv/
+venv/
+
+# Large dumps
+*.dump
+*.sql.gz
+dumps/
+**/dumps/**

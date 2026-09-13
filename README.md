@@ -66,6 +66,14 @@ operator-gates check mail_send --json examples/posture.stale.json
 
 ---
 
+## For AI assistants / contributors
+
+Safe lanes: docs, tests, CLI, and assistant config in `.github/` plus `.copilotignore`. Read [`.github/copilot-instructions.md`](.github/copilot-instructions.md) first. Install with `python -m pip install -e ".[dev]"` then `python -m pytest`.
+
+Do not invent GO cards, send or charge, or wire this repo to a live boot plane.
+
+---
+
 ## Scars
 
 ### 001 — Stale mirror before send
