@@ -23,8 +23,15 @@ Documentation = "https://gregfredabytes.com/essay/mail-as-front-door/"
 "Peer desk" = "https://gregfredabytes.com/"
 Scar = "https://github.com/GFB2026/operator-gates/blob/main/scars/001-stale-mirror-before-send.md"
 
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
 [project.scripts]
 operator-gates = "operator_gates.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

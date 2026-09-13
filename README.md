@@ -1,5 +1,7 @@
 # operator-gates
 
+[![tests](https://github.com/GFB2026/operator-gates/actions/workflows/tests.yml/badge.svg)](https://github.com/GFB2026/operator-gates/actions/workflows/tests.yml)
+
 Fail-closed **GO / NO-GO cards** before agents touch mail, money, or outreach.
 
 Not a harness framework. Not a product SKU. A small, forkable contract from running companies where agents already sit on real inboxes and charges.
@@ -21,10 +23,11 @@ Harness builders ship shells. Operator companies live where agents already touch
 
 No Relish guts. No private fleet paths.
 
-### Honest scope
+### What this is not
 
 - Not Dex-style thesis depth (`12-factor-agents` grade)
 - Not wired to a live boot plane — you pass posture (flags or JSON)
+- Not a mailer, billing engine, or production control plane
 - Proof you run a company is [what I run](https://gregfredabytes.com/running/), not this repo alone
 
 ---
@@ -32,7 +35,8 @@ No Relish guts. No private fleet paths.
 ## Install / try
 
 ```bash
-python -m pip install -e .
+python -m pip install -e ".[dev]"
+python -m pytest
 operator-gates scars
 operator-gates replay 001
 operator-gates replay 002
