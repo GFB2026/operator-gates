@@ -34,7 +34,11 @@ No Relish guts. No private fleet paths.
 
 ## Install / try
 
+Requires Python ≥3.10.
+
 ```bash
+git clone https://github.com/GFB2026/operator-gates.git
+cd operator-gates
 python -m pip install -e ".[dev]"
 python -m pytest
 operator-gates scars
