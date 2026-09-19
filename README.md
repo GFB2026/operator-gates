@@ -110,7 +110,7 @@ operator-gates replay 004
 
 ### Grok Build `PreToolUse` fails open
 
-[`fixtures/grok-build/`](fixtures/grok-build/) — one hook in front of one shell command, four runs on a real harness. Timeout, crash and malformed deny all **fired** the tool; only a well-formed deny blocked. The harness logs `ignoring (fail-open)`. Redacted traces included. `python run.py` reproduces it in a minute.
+[`fixtures/grok-build/`](fixtures/grok-build/) — one hook in front of one shell command, five runs on a real harness. Timeout and crash **fired** the tool, as documented. So did a **deny that exited 2 with truncated stdout** — the harness saw exit 1, had no JSON to parse, and logged `ignoring (fail-open)`. Only a well-formed deny blocked. Redacted traces included; `python run.py` reproduces it.
 
 ---
 

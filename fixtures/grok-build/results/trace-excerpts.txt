@@ -1,5 +1,6 @@
 # Grok Build 1.0.34 (3736acbc8658) [stable], Windows, 2026-09-19, --permission-mode default --allow "Bash(python*)"
-# Lines are from --debug-file traces, credentials redacted, filtered to the hook dispatcher.
+# Lines are from --debug-file traces (OG_DEBUG=1), credentials redacted, filtered to
+# xai_grok_hooks::dispatcher, xai_grok_hooks::runner, and the acp_session hooks/tool_calls lines.
 # "global/fleet:pre_tool_use" is the operator's own production safety hook (allowed each time).
 # "global/og-fixture:pre_tool_use" is the fixture hook under test.
 
@@ -28,4 +29,20 @@
 2026-09-19T18:07:35.7942 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=285 updated_input=false additional_context=false
 2026-09-19T18:07:36.0392 xai_grok_hooks::dispatcher: hook allowed hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=244 updated_input=false additional_context=false
 # marker file fired-malformed.txt: PRESENT
-# note: the truncated deny JSON was not logged as a failure at all — it was parsed as "allowed".
+# note: no failure line from the dispatcher for this run; exit 0 is the documented allow path, so this is expected, not a finding.
+
+# ---- second run, 2026-09-19 20:54 UTC, same box and version, after review ----
+# "malformed" above was relabelled malformed_exit0_allow: exit 0 is the documented allow path.
+
+===== malformed_exit0_allow (truncated deny JSON, exit 0)
+2026-09-19T20:54:25.9618 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=276 updated_input=false additional_context=false
+2026-09-19T20:54:26.1765 xai_grok_hooks::dispatcher: hook allowed hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=214 updated_input=false additional_context=false
+# marker file fired-malformed_exit0_allow.txt: PRESENT (expected: docs say exit 0 allows)
+
+===== malformed_exit2 (truncated deny JSON, exit 2 — the deny code)
+2026-09-19T20:54:34.3941 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=261 updated_input=false additional_context=false
+2026-09-19T20:54:34.6079 xai_grok_hooks::dispatcher: gate hook failed; ignoring (fail-open) hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=213 hook_failure=exit code 1
+# marker file fired-malformed_exit2.txt: PRESENT
+# The hook called sys.exit(2). The harness reports exit code 1 (compare the deny
+# control above: "JSON decision is 'deny' but exit code is not 0 or 2 — using JSON
+# decision ... exit_code=1"). With no parseable JSON to fall back on, the gate is ignored.

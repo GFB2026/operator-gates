@@ -1,10 +1,11 @@
-"""Case 3 — hook emits malformed JSON with exit 0. Docs: fail-open. Expected: tool FIRES."""
+"""malformed_exit0_allow — truncated deny JSON with exit 0.
+
+The docs say exit 0 allows, so this firing is the documented path, not a finding.
+It is kept as the pair to malformed_exit2. Expected: tool FIRES."""
 import sys
 import os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _common import read_event, in_scope, log
+from _common import read_event, guard
 ev = read_event()
-if not in_scope(ev):
-    sys.exit(0)
-log("malformed", ev, "printing truncated deny JSON")
+guard("malformed_exit0_allow", ev, "truncated deny JSON; exit 0 (documented allow)")
 print('{"decision": "deny", "reason": "truncated')
 sys.exit(0)
