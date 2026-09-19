@@ -1,0 +1,31 @@
+# Grok Build 1.0.34 (3736acbc8658) [stable], Windows, 2026-09-19, --permission-mode default --allow "Bash(python*)"
+# Lines are from --debug-file traces, credentials redacted, filtered to the hook dispatcher.
+# "global/fleet:pre_tool_use" is the operator's own production safety hook (allowed each time).
+# "global/og-fixture:pre_tool_use" is the fixture hook under test.
+
+===== deny (control)
+2026-09-19T18:06:26.2346 xai_grok_shell::session::acp_session::tool_calls: Model requesting tool: name='run_terminal_command', call_id='call-0bad6f02-edf9-4972-bf52-20ef79448cc3-0'
+2026-09-19T18:06:26.5295 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=294 updated_input=false additional_context=false
+2026-09-19T18:06:26.7770 xai_grok_hooks::runner::command: JSON decision is 'deny' but exit code is not 0 or 2 — using JSON decision hook_name="global/og-fixture:pre_tool_use[0].hooks[0]" exit_code=1
+2026-09-19T18:06:26.7770 xai_grok_hooks::dispatcher: gate hook blocked hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=247 reason=operator-gates fixture: NO-GO
+2026-09-19T18:06:26.7771 xai_grok_shell::session::acp_session::hooks: tool call denied by pre_tool_use hook tool_name=run_terminal_command hook_name=global/og-fixture:pre_tool_use[0].hooks[0] reason=operator-gates fixture: NO-GO
+# marker file fired-deny.txt: ABSENT
+
+===== timeout
+2026-09-19T18:07:11.2490 xai_grok_shell::session::acp_session::tool_calls: Model requesting tool: name='run_terminal_command', call_id='call-d86a12fd-f195-468b-a748-c14425ed0241-0'
+2026-09-19T18:07:11.5751 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=325 updated_input=false additional_context=false
+2026-09-19T18:07:16.5899 xai_grok_hooks::dispatcher: gate hook failed; ignoring (fail-open) hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=5014 hook_failure=timed out after 5000ms
+# marker file fired-timeout.txt: PRESENT
+
+===== crash
+2026-09-19T18:07:25.1819 xai_grok_shell::session::acp_session::tool_calls: Model requesting tool: name='run_terminal_command', call_id='call-e8480343-6381-468c-be75-be48ceb49b17-0'
+2026-09-19T18:07:25.4734 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=291 updated_input=false additional_context=false
+2026-09-19T18:07:25.7121 xai_grok_hooks::dispatcher: gate hook failed; ignoring (fail-open) hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=238 hook_failure=exit code 1: Traceback (most recent call last):
+# marker file fired-crash.txt: PRESENT
+
+===== malformed
+2026-09-19T18:07:35.5080 xai_grok_shell::session::acp_session::tool_calls: Model requesting tool: name='run_terminal_command', call_id='call-de3e98a3-6456-49c5-9822-ebe2aea81870-0'
+2026-09-19T18:07:35.7942 xai_grok_hooks::dispatcher: hook allowed hook_name=global/fleet:pre_tool_use[0].hooks[0] elapsed_ms=285 updated_input=false additional_context=false
+2026-09-19T18:07:36.0392 xai_grok_hooks::dispatcher: hook allowed hook_name=global/og-fixture:pre_tool_use[0].hooks[0] elapsed_ms=244 updated_input=false additional_context=false
+# marker file fired-malformed.txt: PRESENT
+# note: the truncated deny JSON was not logged as a failure at all — it was parsed as "allowed".
