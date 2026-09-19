@@ -106,6 +106,14 @@ operator-gates replay 004
 
 ---
 
+## Fixtures
+
+### Grok Build `PreToolUse` fails open
+
+[`fixtures/grok-build/`](fixtures/grok-build/) — one hook in front of one shell command, four runs on a real harness. Timeout, crash and malformed deny all **fired** the tool; only a well-formed deny blocked. The harness logs `ignoring (fail-open)`. Redacted traces included. `python run.py` reproduces it in a minute.
+
+---
+
 ## The card (contract)
 
 Every mutator on send / money / outreach emits **exactly one** card first:
